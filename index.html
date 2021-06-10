@@ -157,6 +157,22 @@
       return str.replace(/，/g, ',')
     }
 
+    // 送出名單
+    const submitList = () => {
+      let input = transDot(inputList.value)
+
+      // 文字轉陣列
+      team = input.split(",")
+
+      // 陣列資訊
+      teamLen = team.length
+      teamDiv = teamLen / 2
+      teamCount = Math.round(teamDiv)
+
+      // 顯示參與者
+      people.innerText = team
+    }
+
     // 整除分配
     const intTeam = () => {
       for (let i = 0; i < teamCount; i++) {
@@ -204,22 +220,10 @@
     }
 
     // input submit
-    submit.addEventListener("click", () => {
-      let input = transDot(inputList.value)
-
-      // 文字轉陣列
-      team = input.split(",")
-
-      // 陣列資訊
-      teamLen = team.length
-      teamDiv = teamLen / 2
-      teamCount = Math.round(teamDiv)
-
-      // 顯示參與者
-      people.innerText = team
-
+    submit.addEventListener("click", submitList, false)
+    document.addEventListener("keydown", (val) => {
+      if (val.keyCode === 13) submitList()
     }, false)
-
 
     // Start
     start.addEventListener("click", () => {
