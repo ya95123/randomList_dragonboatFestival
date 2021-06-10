@@ -23,7 +23,10 @@
       letter-spacing: 1px;
       background: #8CA653;
       color: #CFE4DB;
-      /* color: #fff; */
+    }
+
+    body {
+      padding: 0 8px;
     }
 
     ::selection {
@@ -32,6 +35,15 @@
 
     h1 {
       padding: 1.5rem 0;
+    }
+
+    input {
+      height: 1.5rem;
+      margin: 8px 0;
+      padding: 0 4px;
+      border-radius: 4px;
+      background: #fff;
+      border: none;
     }
 
     button {
@@ -51,6 +63,15 @@
 
     p {
       margin: 0.65rem 0;
+    }
+
+    #submit {
+      transition: 0.25s;
+    }
+
+    #submit:hover {
+      cursor: pointer;
+      color: rgb(255, 232, 25);
     }
 
     #result {
@@ -104,23 +125,27 @@
 
 <body>
   <h1>🍲送餐到你家！</h1>
-  <h4>參與家人：<span id="people"></span></h4>
+  <h4>輸入名單
+    <input id="inputList" type="text" size="35" placeholder="請用小寫逗號 , 分隔名字！">
+    <span id="submit">送出</span>
+  </h4>
+
+  <h4>參與家人：<span id="people">多多,小花,菲比(範例)</span></h4>
 
   <button id="start" style="cursor: pointer;">開始分配</button>
 
   <div id="result" style="opacity: 0;"></div>
 
   <script>
+    const inputList = document.getElementById("inputList")
+    const submit = document.getElementById("submit")
     const people = document.getElementById("people")
     const start = document.getElementById("start")
     const result = document.getElementById("result")
-    const team = ["宇德", "百恩", "柯柯", "小熊", "章弘", "承恩", "勝耀", "裕國"]
 
-    let teamLen = team.length
-    let teamDiv = teamLen / 2
-    let teamCount = Math.round(teamDiv)
+    let team = []
     let timeCount = 0
-    console.log(teamCount);
+    let teamLen, teamDiv, teamCount
 
     // 隨機
     const rand = (min, max) => {
@@ -173,11 +198,36 @@
       }
     }
 
-    // 顯示參與者
-    people.innerText = team
+    // input submit
+    submit.addEventListener("click", () => {
+      let input = inputList.value
+
+      // 文字轉陣列
+      team = input.split(",")
+      console.log(team)
+
+      // 陣列資訊
+      teamLen = team.length
+      teamDiv = teamLen / 2
+      teamCount = Math.round(teamDiv)
+
+      // 顯示參與者
+      people.innerText = team
+
+    }, false)
+
 
     // Start
     start.addEventListener("click", () => {
+      if (team.length === 0) {
+        alert("未輸入名單")
+        return
+      }
+      if (team.length < 3) {
+        alert("名單至少需要輸入 3 人")
+        return
+      }
+
       // 初始 result、計時器、按鈕禁止
       result.innerHTML = ""
       timeCount = 0
