@@ -152,6 +152,11 @@
       return Math.floor(Math.random() * (max - min + 1) + min)
     }
 
+    // 大寫逗號轉小寫
+    const transDot = (str) => {
+      return str.replace(/，/g, ',')
+    }
+
     // 整除分配
     const intTeam = () => {
       for (let i = 0; i < teamCount; i++) {
@@ -200,11 +205,10 @@
 
     // input submit
     submit.addEventListener("click", () => {
-      let input = inputList.value
+      let input = transDot(inputList.value)
 
       // 文字轉陣列
       team = input.split(",")
-      console.log(team)
 
       // 陣列資訊
       teamLen = team.length
