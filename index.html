@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>送餐到你家！</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      box-sizing: border-box;
+      font-family: 黑體-繁, Apple LiGothic Medium, PingFang, 微軟正黑體, Microsoft JhengHei, WenQuanYi Zen Hei, helvetica, Arial, sans-serif;
+    }
+
+    html,
+    body {
+      height: 100%;
+      font-weight: bold;
+      text-align: center;
+      letter-spacing: 1px;
+      background: #8CA653;
+      color: #CFE4DB;
+      /* color: #fff; */
+    }
+
+    ::selection {
+      color: rgb(255, 232, 25);
+    }
+
+    h1 {
+      padding: 1.5rem 0;
+    }
+
+    button {
+      display: block;
+      padding: 0.5rem 1rem;
+      margin: 1.5rem auto;
+      border: none;
+      border-radius: 13px;
+      cursor: pointer;
+      opacity: 0.9;
+      transition: 0.25s;
+    }
+
+    button:hover {
+      opacity: 1;
+    }
+
+    p {
+      margin: 0.65rem 0;
+    }
+
+    #result {
+      color: #fff;
+      font-size: 2rem;
+      transition: 0.3s;
+    }
+
+    .three {
+      width: 300px;
+      height: 150px;
+      margin: auto;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+    }
+
+    .three-left,
+    .three-mid,
+    .three-right {
+      position: relative;
+    }
+
+    .three-mid {
+      align-self: flex-start;
+    }
+
+    .three-left::before {
+      content: '➚';
+      position: absolute;
+      left: 40%;
+      top: -100%;
+    }
+
+    .three-mid::before {
+      content: '➘';
+      position: absolute;
+      right: -50%;
+      top: 100%;
+    }
+
+    .three-right::before {
+      content: '➙';
+      position: absolute;
+      left: -75%;
+      top: 7%;
+      transform: rotate(180deg);
+    }
+  </style>
+</head>
+
+<body>
+  <h1>🍲送餐到你家！</h1>
+  <h4>參與家人：<span id="people"></span></h4>
+
+  <button id="start" style="cursor: pointer;">開始分配</button>
+
+  <div id="result" style="opacity: 0;"></div>
+
+  <script>
+    const people = document.getElementById("people")
+    const start = document.getElementById("start")
+    const result = document.getElementById("result")
+    const team = ["宇德", "百恩", "柯柯", "小熊", "章弘", "承恩", "勝耀", "裕國"]
+
+    let teamLen = team.length
+    let teamDiv = teamLen / 2
+    let teamCount = Math.round(teamDiv)
+    let timeCount = 0
+    console.log(teamCount);
+
+    // 隨機
+    const rand = (min, max) => {
+      return Math.floor(Math.random() * (max - min + 1) + min)
+    }
+
+    // 整除分配
+    const intTeam = () => {
+      for (let i = 0; i < teamCount; i++) {
+        result.insertAdjacentHTML("beforeend", `
+        <p><span class="name"></span> ↔ <span class="name"></span></p>
+        `)
+      }
+    }
+
+    // 非整除分配
+    const floatTeam = () => {
+      let len = teamCount - 2
+      // 雙
+      for (let i = 0; i < len; i++) {
+        result.insertAdjacentHTML("beforeend", `
+        <p><span class="name"></span> ↔ <span class="name"></span></p>
+        `)
+      }
+      // 三
+      result.insertAdjacentHTML("beforeend", `
+      <div class="three">
+        <p class="three-left"><span class="name"></span></p>
+        <p class="three-mid"><span class="name"></span></p>
+        <p class="three-right"><span class="name"></span></p>
+      </div>
+        `)
+    }
+
+    // 分配名單
+    const nameList = () => {
+      const names = document.querySelectorAll(".name")
+      const list = []
+
+      for (let i = 0; i < teamLen; i++) {
+        // 隨機名字
+        let name = team[rand(0, teamLen - 1)]
+        // 避免重複
+        while (list.includes(name)) {
+          name = team[rand(0, teamLen - 1)]
+        }
+        // 推入陣列、並顯示文字
+        list.push(name)
+        names[i].innerText = list[i]
+      }
+    }
+
+    // 顯示參與者
+    people.innerText = team
+
+    // Start
+    start.addEventListener("click", () => {
+      // 初始 result、計時器、按鈕禁止
+      result.innerHTML = ""
+      timeCount = 0
+      start.disabled = true
+      start.style.cursor = "not-allowed"
+      result.style.opacity = "0"
+
+      // 出現 result
+      result.style.opacity = "1"
+
+      // 插入 html
+      // 四捨五入可判別是奇數(不整除，會多0.5)或偶數(整除)
+      Math.round(teamDiv) === teamDiv ? intTeam() : floatTeam()
+
+      // 隨機顯示
+      let timer = setInterval(() => {
+        nameList()
+        timeCount += 100
+        // 暫停
+        if (timeCount === 3000) {
+          clearInterval(timer)
+          start.disabled = false
+          start.style.cursor = "pointer"
+        }
+      }, 100)
+
+    }, false)
+
+  </script>
+</body>
+
+</html>
