@@ -38,7 +38,7 @@ input {
 }
 
 button {
-  display: block;
+  display: inline-block;
   padding: 0.5rem 1rem;
   margin: 1.5rem auto;
   border: none;
@@ -50,19 +50,21 @@ button {
 
 button:hover {
   opacity: 1;
+  color: rgb(201, 183, 21);
 }
 
 p {
   margin: 0.65rem 0;
 }
 
-#submit {
-  transition: 0.25s;
+.phone {
+  display: none;
 }
 
-#submit:hover {
-  cursor: pointer;
-  color: rgb(255, 232, 25);
+
+#submit {
+  padding: 0.25rem 0.5rem;
+  border-radius: 7px;
 }
 
 #result {
@@ -110,4 +112,14 @@ p {
   left: -75%;
   top: 7%;
   transform: rotate(180deg);
+}
+
+@media (max-width:600px) {
+  h1 {
+    padding: 1rem 0;
+  }
+
+  .phone {
+    display: block;
+  }
 }
