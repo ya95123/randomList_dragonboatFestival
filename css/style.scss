@@ -16,10 +16,6 @@ body {
   color: #CFE4DB;
 }
 
-body {
-  padding: 0 8px;
-}
-
 ::selection {
   color: rgb(255, 232, 25);
 }
@@ -68,6 +64,8 @@ p {
 }
 
 #result {
+  width: 50%;
+  margin: auto;
   color: #fff;
   font-size: 2rem;
   transition: 0.3s;
@@ -119,7 +117,16 @@ p {
     padding: 1rem 0;
   }
 
+  button {
+    margin: 1rem auto;
+  }
+
   .phone {
     display: block;
+  }
+
+  #result {
+    width: 90%;
+    font-size: 2rem;
   }
 }

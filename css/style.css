@@ -18,10 +18,6 @@ body {
   color: #CFE4DB;
 }
 
-body {
-  padding: 0 8px;
-}
-
 ::-moz-selection {
   color: #ffe819;
 }
@@ -74,6 +70,8 @@ p {
 }
 
 #result {
+  width: 50%;
+  margin: auto;
   color: #fff;
   font-size: 2rem;
   -webkit-transition: 0.3s;
@@ -133,7 +131,14 @@ p {
   h1 {
     padding: 1rem 0;
   }
+  button {
+    margin: 1rem auto;
+  }
   .phone {
     display: block;
+  }
+  #result {
+    width: 90%;
+    font-size: 2rem;
   }
 }

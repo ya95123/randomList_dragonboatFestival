@@ -1,8 +1,8 @@
 const inputList = document.getElementById("inputList")
 const submit = document.getElementById("submit")
 const people = document.getElementById("people")
-const start = document.getElementById("start")
 const result = document.getElementById("result")
+const starts = document.querySelectorAll(".start")
 
 let team = []
 let timeCount = 0
@@ -34,6 +34,17 @@ const submitList = () => {
   people.innerText = team
 }
 
+// 初始 result、計時器、按鈕禁止、出現 result
+const startInit = () => {
+  result.innerHTML = ""
+  result.style.opacity = "1"
+  timeCount = 0
+  starts.forEach(start => {
+    start.disabled = true
+    start.style.cursor = "not-allowed"
+  })
+}
+
 // 整除分配
 const intTeam = () => {
   for (let i = 0; i < teamCount; i++) {
@@ -62,8 +73,23 @@ const floatTeam = () => {
     `)
 }
 
+// 隨機分配
+const randTeam = () => {
+  let len = teamLen
+
+  for (let i = 0; i < len; i++) {
+    result.insertAdjacentHTML("beforeend", `
+    <span class="name"></span> →
+    `)
+  }
+  // 最後一個
+  result.insertAdjacentHTML("beforeend", `
+    <span class="name"></span>
+    `)
+}
+
 // 分配名單
-const nameList = () => {
+const nameList = (idx) => {
   const names = document.querySelectorAll(".name")
   const list = []
 
@@ -78,6 +104,9 @@ const nameList = () => {
     list.push(name)
     names[i].innerText = list[i]
   }
+
+  // 隨機分配的最後一項，返回第一個
+  if (idx === 1) names[names.length - 1].innerText = list[0]
 }
 
 // input submit
@@ -87,40 +116,59 @@ document.addEventListener("keydown", (val) => {
 }, false)
 
 // Start
-start.addEventListener("click", () => {
-  if (team.length === 0) {
-    alert("未輸入名單")
-    return
-  }
-  if (team.length < 3) {
-    alert("名單至少需要輸入 3 人")
-    return
-  }
-
-  // 初始 result、計時器、按鈕禁止
-  result.innerHTML = ""
-  timeCount = 0
-  start.disabled = true
-  start.style.cursor = "not-allowed"
-  result.style.opacity = "0"
-
-  // 出現 result
-  result.style.opacity = "1"
-
-  // 插入 html
-  // 四捨五入可判別是奇數(不整除，會多0.5)或偶數(整除)
-  Math.round(teamDiv) === teamDiv ? intTeam() : floatTeam()
-
-  // 隨機顯示
-  let timer = setInterval(() => {
-    nameList()
-    timeCount += 100
-    // 暫停
-    if (timeCount === 3000) {
-      clearInterval(timer)
-      start.disabled = false
-      start.style.cursor = "pointer"
+starts.forEach((start, idx) => {
+  start.addEventListener("click", () => {
+    if (team.length === 0) {
+      alert("未輸入名單")
+      return
     }
-  }, 100)
+    if (team.length < 3) {
+      alert("名單至少需要輸入 3 人")
+      return
+    }
 
-}, false)
+    // 初始 result、計時器、按鈕禁止、出現 result
+    startInit()
+
+    // *互相分配
+    if (idx === 0) {
+      // 插入 html
+      // 四捨五入可判別是奇數(不整除，會多0.5)或偶數(整除)
+      Math.round(teamDiv) === teamDiv ? intTeam() : floatTeam()
+
+      // 隨機顯示
+      let timer = setInterval(() => {
+        nameList()
+        timeCount += 100
+        // 暫停
+        if (timeCount === 3000) {
+          clearInterval(timer)
+          starts.forEach(start => {
+            start.disabled = false
+            start.style.cursor = "pointer"
+          })
+        }
+      }, 100)
+      return
+    }
+
+    // *隨機分配
+    if (idx === 1) {
+      randTeam()
+
+      let timer = setInterval(() => {
+        nameList(idx)
+        timeCount += 100
+        // 暫停
+        if (timeCount === 3000) {
+          clearInterval(timer)
+          starts.forEach(start => {
+            start.disabled = false
+            start.style.cursor = "pointer"
+          })
+        }
+      }, 100)
+    }
+
+  }, false)
+})
