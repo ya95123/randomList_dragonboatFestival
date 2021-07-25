@@ -1,0 +1,113 @@
+* {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  box-sizing: border-box;
+  font-family: 黑體-繁, Apple LiGothic Medium, PingFang, 微軟正黑體, Microsoft JhengHei, WenQuanYi Zen Hei, helvetica, Arial, sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+  font-weight: bold;
+  text-align: center;
+  letter-spacing: 1px;
+  background: #8CA653;
+  color: #CFE4DB;
+}
+
+body {
+  padding: 0 8px;
+}
+
+::selection {
+  color: rgb(255, 232, 25);
+}
+
+h1 {
+  padding: 1.5rem 0;
+}
+
+input {
+  height: 1.5rem;
+  margin: 8px 0;
+  padding: 0 4px;
+  border-radius: 4px;
+  background: #fff;
+  border: none;
+}
+
+button {
+  display: block;
+  padding: 0.5rem 1rem;
+  margin: 1.5rem auto;
+  border: none;
+  border-radius: 13px;
+  cursor: pointer;
+  opacity: 0.9;
+  transition: 0.25s;
+}
+
+button:hover {
+  opacity: 1;
+}
+
+p {
+  margin: 0.65rem 0;
+}
+
+#submit {
+  transition: 0.25s;
+}
+
+#submit:hover {
+  cursor: pointer;
+  color: rgb(255, 232, 25);
+}
+
+#result {
+  color: #fff;
+  font-size: 2rem;
+  transition: 0.3s;
+}
+
+.three {
+  width: 300px;
+  height: 150px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.three-left,
+.three-mid,
+.three-right {
+  position: relative;
+}
+
+.three-mid {
+  align-self: flex-start;
+}
+
+.three-left::before {
+  content: '➚';
+  position: absolute;
+  left: 40%;
+  top: -100%;
+}
+
+.three-mid::before {
+  content: '➘';
+  position: absolute;
+  right: -50%;
+  top: 100%;
+}
+
+.three-right::before {
+  content: '➙';
+  position: absolute;
+  left: -75%;
+  top: 7%;
+  transform: rotate(180deg);
+}
